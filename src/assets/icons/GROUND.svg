@@ -1,0 +1,68 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="none" x="0px" y="0px" width="250px" height="520px" viewBox="0 0 250 520">
+<defs>
+<g id="Layer5_0_FILL">
+<path fill="#28DF77" stroke="none" d="
+M 414.35 131.65
+Q 414.35 118.45 405.45 109.1 396.55 99.75 383.95 99.75
+L 237.55 99.75
+Q 224.95 99.75 216.05 109.1 207.15 118.45 207.15 131.65
+L 207.15 535.95
+Q 207.15 549.15 216.05 558.5 224.95 567.85 237.55 567.85
+L 383.95 567.85
+Q 396.55 567.85 405.45 558.5 414.35 549.15 414.35 535.95
+L 414.35 131.65 Z"/>
+</g>
+
+<path id="Layer4_0_1_STROKES" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 210.3 331.5
+L 411.25 331.5"/>
+
+<path id="Layer3_0_1_STROKES" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 349.8 332.1
+Q 349.8 347.2 339.1 357.9 328.4 368.6 313.3 368.6 298.2 368.6 287.5 357.9 276.8 347.2 276.8 332.1 276.8 317 287.5 306.3 298.2 295.6 313.3 295.6 328.4 295.6 339.1 306.3 349.8 317 349.8 332.1 Z"/>
+
+<path id="Layer2_0_1_STROKES" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 272.35 100.45
+L 272.35 126 367.9 126 367.9 100.45"/>
+
+<path id="Layer1_0_1_STROKES" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 272.35 565.95
+L 272.35 540.4 367.9 540.4 367.9 565.95"/>
+
+<path id="Layer0_0_1_STROKES" stroke="#483D58" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" fill="none" d="
+M 237.55 99.75
+L 383.95 99.75
+Q 396.55 99.75 405.45 109.1 414.35 118.45 414.35 131.65
+L 414.35 535.95
+Q 414.35 549.15 405.45 558.5 396.55 567.85 383.95 567.85
+L 237.55 567.85
+Q 224.95 567.85 216.05 558.5 207.15 549.15 207.15 535.95
+L 207.15 131.65
+Q 207.15 118.45 216.05 109.1 224.95 99.75 237.55 99.75 Z"/>
+</defs>
+
+<g transform="matrix( 1, 0, 0, 1, -183.9,-73.3) ">
+<use xlink:href="#Layer5_0_FILL"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, -183.9,-73.3) ">
+<use xlink:href="#Layer4_0_1_STROKES"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, -183.9,-73.3) ">
+<use xlink:href="#Layer3_0_1_STROKES"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, -192.3,-73.3) ">
+<use xlink:href="#Layer2_0_1_STROKES"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, -192.3,-73.3) ">
+<use xlink:href="#Layer1_0_1_STROKES"/>
+</g>
+
+<g transform="matrix( 1, 0, 0, 1, -183.9,-73.3) ">
+<use xlink:href="#Layer0_0_1_STROKES"/>
+</g>
+</svg>
