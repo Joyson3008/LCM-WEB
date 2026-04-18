@@ -10,6 +10,7 @@ import MapLoyola from "../components/mapLoyola";
 import BuildingModal from "../components/BuildingModal";
 import RoutePanel from "../components/RoutePanel";
 import SearchBar from "../components/SearchBar";
+
 import { useLiveLocation } from "../hooks/useUserLocation";
 
 /* ─── GPS → SVG ───────────────────────────────────────── */
@@ -199,14 +200,14 @@ function Home() {
       )}
 
       {/* 🗺️ MAP AREA */}
-      <div className="absolute inset-0 pt-16 flex items-center justify-center">
+     <div className="absolute inset-0 pt-23 md:flex md:items-center md:justify-center">
         <div
           className="
   relative 
   w-full 
   h-full 
   md:max-w-5xl 
-  md:h-[120%] 
+  md:h-[140%] 
   bg-white 
   md:rounded-3xl 
   md:shadow-2xl 
