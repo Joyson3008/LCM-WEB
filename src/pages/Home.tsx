@@ -10,7 +10,6 @@ import MapLoyola from "../components/mapLoyola";
 import BuildingModal from "../components/BuildingModal";
 import RoutePanel from "../components/RoutePanel";
 import SearchBar from "../components/SearchBar";
-import Navbar from "../components/Navbar";
 import { useLiveLocation } from "../hooks/useUserLocation";
 
 /* ─── GPS → SVG ───────────────────────────────────────── */
