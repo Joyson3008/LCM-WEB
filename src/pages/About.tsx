@@ -73,7 +73,7 @@ function About() {
 
         {/* ⚡ VERSION DETAILS */}
         <SectionCard title="⚡ Version Info">
-          Version: <b>1.0 (Beta)</b> <br />
+          Version: <b>3.0 (Beta)</b> <br />
           This is an initial release of the campus navigation system. Features
           and performance improvements will be added in future updates.
         </SectionCard>
@@ -81,7 +81,7 @@ function About() {
         {/* 🔄 FUTURE UPDATES */}
         <SectionCard title="🔄 Upcoming Features">
           - Improved GPS accuracy inside campus <br />
-          - Indoor navigation support <br />
+          - Voice Navigation <br/>
           - More building details and images <br />- Performance optimizations
           for mobile devices
         </SectionCard>
