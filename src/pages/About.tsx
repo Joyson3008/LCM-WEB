@@ -10,9 +10,7 @@ function About() {
         <div className="absolute w-80 h-80 bg-purple-400/20 blur-3xl bottom-0 right-0" />
 
         <div className="max-w-6xl mx-auto text-white relative z-10">
-          <div className="bg-yellow-400/20 text-yellow-300 inline-block px-4 py-1 rounded-full text-xs mb-4">
-            Loyola College · Smart Campus System
-          </div>
+      
 
           <h1 className="text-3xl md:text-5xl font-bold mb-4">
             Campus Navigation <br />
@@ -88,7 +86,7 @@ function About() {
 
         {/* 👨‍💻 DEVELOPER */}
         <SectionCard title="👨‍💻 Developer">
-          Developed by a Computer Science student <b>(Joyson R [25-PCS-005])</b>
+          Developed by a Computer Science student <b>(Joyson R [25-PCS-005]) </b>
           passionate about building real-world applications, focusing on
           usability, performance, and modern UI design.
         </SectionCard>
