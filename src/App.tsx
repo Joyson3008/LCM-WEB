@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
+import Index from "./pages/index";
 import Home from "./pages/Home";
 import Buildings from "./pages/Buildings";
 import About from "./pages/About";
@@ -13,8 +14,19 @@ function AnimatedRoutes() {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
+        {/* ✅ FIRST PAGE (INDEX) */}
         <Route
           path="/"
+          element={
+            <PageWrapper>
+              <Index />
+            </PageWrapper>
+          }
+        />
+
+        {/* ✅ HOME (MAP PAGE) */}
+        <Route
+          path="/home"
           element={
             <PageWrapper>
               <Home />
@@ -22,6 +34,7 @@ function AnimatedRoutes() {
           }
         />
 
+        {/* ✅ BUILDINGS */}
         <Route
           path="/buildings"
           element={
@@ -31,6 +44,7 @@ function AnimatedRoutes() {
           }
         />
 
+        {/* ✅ ABOUT */}
         <Route
           path="/about"
           element={
@@ -44,7 +58,7 @@ function AnimatedRoutes() {
   );
 }
 
-/* 🔥 PAGE TRANSITION (PREMIUM FEEL) */
+/* 🔥 PAGE TRANSITION */
 function PageWrapper({ children }: { children: React.ReactNode }) {
   return (
     <motion.div
