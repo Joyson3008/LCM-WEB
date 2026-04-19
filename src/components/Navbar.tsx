@@ -6,50 +6,52 @@ function Navbar() {
   const location = useLocation();
 
   return (
-    <div className="w-full bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 text-white pb-6 shadow-xl">
-      {/* 🔝 TOP LABEL */}
+    <div className="w-full bg-blue-950 text-white pb-6 shadow-xl">
+      {/* ── Top badge ── */}
       <div className="px-5 pt-4">
-        <span className="text-xs bg-yellow-400/20 text-yellow-300 px-3 py-1 rounded-full font-semibold tracking-wide">
-          Loyola College · Chennai · Est. 1925
-        </span>
+        <div className="inline-flex items-center gap-1.5 bg-yellow-400/20 border border-yellow-400/40 rounded-full px-3.5 py-1">
+          <div className="w-1.5 h-1.5 rounded-full bg-yellow-300 shrink-0" />
+          <span className="text-yellow-300 text-[11px] font-semibold tracking-wide">
+            Loyola College · Chennai · Est. 1925
+          </span>
+        </div>
       </div>
 
-      {/* 🏫 TITLE */}
+      {/* ── Title block ── */}
       <div className="px-5 mt-3">
-        <h1 className="text-2xl font-bold">Campus Navigation</h1>
-        <p className="text-sm text-blue-200">
-          Explore every building, department & facility
+        <h1 className="text-2xl font-black tracking-tight mb-0.5 mt-0">
+          Campus Navigation
+        </h1>
+        <p className="text-sm text-blue-200 m-0">
+          Explore every building, department &amp; facility
         </p>
       </div>
 
-      {/* 🔥 NAV CARDS */}
-      <div className="px-5 mt-5 grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* 🗺️ MAP */}
+      {/* ── Nav cards ── */}
+      <div className="px-5 mt-5 grid grid-cols-1 md:grid-cols-3 gap-3">
         <NavCard
           title="Map View"
           desc="Interactive campus map"
           icon={<MdMap />}
-          color="bg-yellow-400"
+          iconBg="bg-yellow-400"
           active={location.pathname === "/"}
           onClick={() => navigate("/")}
         />
 
-        {/* 🏢 BUILDINGS */}
         <NavCard
           title="Buildings"
           desc="Explore all buildings"
           icon={<MdApartment />}
-          color="bg-purple-400"
+          iconBg="bg-purple-400"
           active={location.pathname === "/buildings"}
           onClick={() => navigate("/buildings")}
         />
 
-        {/* ℹ️ ABOUT */}
         <NavCard
           title="About"
           desc="Project details"
           icon={<MdInfo />}
-          color="bg-green-400"
+          iconBg="bg-emerald-400"
           active={location.pathname === "/about"}
           onClick={() => navigate("/about")}
         />
@@ -58,48 +60,64 @@ function Navbar() {
   );
 }
 
-/* 🔥 NAV CARD COMPONENT */
+/* ── NavCard ── */
 function NavCard({
   title,
   desc,
   icon,
-  color,
+  iconBg,
   active,
   onClick,
 }: {
   title: string;
   desc: string;
   icon: React.ReactNode;
-  color: string;
+  iconBg: string;
   active: boolean;
   onClick: () => void;
 }) {
   return (
     <div
       onClick={onClick}
-      className={`cursor-pointer rounded-2xl p-4 border border-white/20 backdrop-blur-md transition duration-300 ${
-        active
-          ? "bg-white/20 shadow-lg scale-[1.02]"
-          : "bg-white/10 hover:bg-white/20 hover:scale-[1.02]"
-      }`}
+      className={`
+        cursor-pointer rounded-2xl p-4
+        border border-white/20
+        backdrop-blur-md
+        transition-all duration-200
+        ${
+          active
+            ? "bg-white/20 shadow-lg scale-[1.02]"
+            : "bg-white/10 hover:bg-white/20 hover:scale-[1.02]"
+        }
+      `}
     >
       <div className="flex items-center gap-3">
-        {/* ICON */}
+        {/* Icon */}
         <div
-          className={`w-10 h-10 flex items-center justify-center rounded-xl text-white text-lg shadow-md ${color}`}
+          className={`
+            w-10 h-10 flex items-center justify-center
+            rounded-xl text-white text-xl shadow-md shrink-0
+            ${iconBg}
+          `}
         >
           {icon}
         </div>
 
-        {/* TEXT */}
+        {/* Text */}
         <div>
-          <h2 className="font-semibold text-sm">{title}</h2>
-          <p className="text-xs text-blue-200">{desc}</p>
+          <h2 className="font-semibold text-sm text-white m-0 mb-0.5">
+            {title}
+          </h2>
+          <p className="text-xs text-blue-200 m-0">{desc}</p>
         </div>
       </div>
+
+      {/* Active indicator */}
+      {active && (
+        <div className="mt-3 h-0.5 w-full bg-yellow-400/70 rounded-full" />
+      )}
     </div>
   );
 }
 
 export default Navbar;
- 
