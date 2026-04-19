@@ -985,19 +985,24 @@ export default function Buildings() {
             pointerEvents: "none",
           }}
         />
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+          {/* LEFT SIDE */}
+          <div>
+            <h1 className="text-3xl md:text-5xl font-bold text-blue-200">
+              Campus Buildings
+            </h1>
+            <p className="text-gray-200 text-sm md:text-base max-w-2xl mt-2">
+              Explore every building, department & facility
+            </p>
+          </div>
 
-        <div style={{ marginBottom: 18 }}>
-          <p
-            style={{
-              color: "rgba(255,255,255,0.6)",
-              fontSize: 13,
-              margin: "6px 0 0",
-            }}
-          >
-            {stats.total} locations across campus
-          </p>
+          {/* RIGHT SIDE */}
+          <div>
+            <p className="text-white/60 text-sm md:text-base">
+              {stats.total} locations across campus
+            </p>
+          </div>
         </div>
-
         <div
           style={{
             display: "flex",
