@@ -207,9 +207,9 @@ export default function LocationPermissionScreen() {
             </div>
 
             <h1 className="text-[26px] font-black text-white text-center leading-tight tracking-tight mb-2 mt-0">
-              Campus Navigation
+              Loyola Campus 
               <br />
-              System
+              Map
             </h1>
             <p className="text-[13px] text-blue-200 text-center leading-relaxed m-0">
               Real-time indoor &amp; outdoor wayfinding
