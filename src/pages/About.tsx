@@ -88,7 +88,7 @@ function About() {
 
         {/* 👨‍💻 DEVELOPER */}
         <SectionCard title="👨‍💻 Developer">
-          Developed by a Computer Science student (Joyson R [25-PCS-005])
+          Developed by a Computer Science student <b>(Joyson R [25-PCS-005])</b>
           passionate about building real-world applications, focusing on
           usability, performance, and modern UI design.
         </SectionCard>
