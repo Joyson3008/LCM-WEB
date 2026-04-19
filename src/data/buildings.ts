@@ -1396,7 +1396,7 @@ export const BUILDINGS: Building[] = [
           "Smart Classroom",
           "VP Office – Shift 2 (Academics)",
           "VP Office – Shift 2 (Administration)",
-          "Lawrence Sundharam Hall",
+          "Lawrence Sundharam Hall (LS Hall)",
           "Green Hall",
           "MRF Hall",
           "Department of Plant Biology and Biotechnology",
