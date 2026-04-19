@@ -573,7 +573,7 @@ export default function Buildings() {
   // ✅ KEY FIX: Pass building data in router state so Home.tsx can start navigation
   const navigateToMap = useCallback(
     (building: Building) => {
-      navigate("/", {
+      navigate("/home", {
         state: {
           navigateTo: String(building.id),
           building: {
