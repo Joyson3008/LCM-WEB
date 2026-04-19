@@ -205,9 +205,9 @@ function Home() {
           className="
       relative 
       w-full 
-      h-[calc(120vh-84px)]   /* 🔥 FULL HEIGHT minus navbar */
+      h-[calc(140vh-64px)]   /* 🔥 FULL HEIGHT minus navbar */
       md:max-w-5xl 
-      md:h-[118vh] 
+      md:h-[110vh] 
       bg-white 
       md:rounded-3xl 
       md:shadow-2xl 
