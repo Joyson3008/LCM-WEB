@@ -185,7 +185,7 @@ function Home() {
 
   /* ─── UI ───────────────────────────────────────── */
   return (
-    <div className="min-h-[140vh] w-full relative overflow-hidden bg-gradient-to-br from-blue-100 via-white to-purple-100">
+    <div className="min-h-[125vh] w-full relative overflow-hidden bg-gradient-to-br from-blue-100 via-white to-purple-100">
       {/* 🌈 ANIMATED BACKGROUND BLOBS */}
       <div className="absolute w-[400px] h-[400px] bg-blue-400/30 rounded-full blur-3xl top-[-100px] left-[-100px] animate-pulse" />
       <div className="absolute w-[300px] h-[300px] bg-purple-400/30 rounded-full blur-3xl bottom-[-80px] right-[-80px] animate-pulse" />
