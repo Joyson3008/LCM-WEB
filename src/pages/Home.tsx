@@ -200,20 +200,20 @@ function Home() {
       )}
 
       {/* 🗺️ MAP AREA */}
-     <div className="absolute inset-0 pt-23 md:flex md:items-center md:justify-center">
+     <div className="absolute inset-0 pt-16 md:flex md:items-center md:justify-center">
         <div
           className="
-  relative 
-  w-full 
-  h-full 
-  md:max-w-5xl 
-  md:h-[140%] 
-  bg-white 
-  md:rounded-3xl 
-  md:shadow-2xl 
-  overflow-hidden 
-  md:border
-"
+      relative 
+      w-full 
+      h-[calc(120vh-84px)]   /* 🔥 FULL HEIGHT minus navbar */
+      md:max-w-5xl 
+      md:h-[118vh] 
+      bg-white 
+      md:rounded-3xl 
+      md:shadow-2xl 
+      overflow-hidden 
+      md:border
+    "
         >
           <div className="w-full h-full transition-transform duration-500 hover:scale-[1.01]">
             <MapLoyola
