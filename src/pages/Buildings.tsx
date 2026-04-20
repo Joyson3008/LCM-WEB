@@ -575,13 +575,7 @@ export default function Buildings() {
     (building: Building) => {
       navigate("/home", {
         state: {
-          navigateTo: String(building.id),
-          building: {
-            id: building.id,
-            name: building.name,
-            nodeId: building.nodeId,
-            description: building.description,
-          },
+          destination: building,
         },
       });
     },
