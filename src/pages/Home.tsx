@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useLocation } from "react-router-dom"; // ✅ import here
 import { NAV_NODES } from "../data/navigationNodes";
 import { type Building } from "../data/buildings";
 
@@ -42,6 +43,12 @@ function gpsToSvg(lat: number, lon: number) {
 const LERP = 0.18;
 
 function Home() {
+  // ✅ FIX 1: useLocation() MUST be inside the component function
+  const locationState = useLocation();
+  // ✅ FIX 2: Read the incoming destination from router state
+  const incomingDestination: Building | null =
+    (locationState.state as any)?.destination ?? null;
+
   const { location, error: gpsError } = useLiveLocation();
 
   const [userMapPosition, setUserMapPosition] = useState<{
@@ -55,10 +62,8 @@ function Home() {
   /* 📍 Convert GPS → Map */
   useEffect(() => {
     if (!location) return;
-
     const mapped = gpsToSvg(location.latitude, location.longitude);
     targetRef.current = mapped;
-
     setUserMapPosition((prev) => prev ?? mapped);
   }, [location]);
 
@@ -80,7 +85,6 @@ function Home() {
           y: prev.y + dy * LERP,
         };
       });
-
       rafRef.current = requestAnimationFrame(tick);
     };
 
@@ -93,7 +97,7 @@ function Home() {
   /* ─── STATES ───────────────────────────────────────── */
 
   const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(
-    null,
+    null
   );
 
   const [route, setRoute] = useState<{
@@ -110,13 +114,31 @@ function Home() {
     "canteen" | "restroom" | null
   >(null);
 
+  // ✅ FIX 3: Apply incoming destination from Buildings page.
+  // We use a ref to ensure it only fires once per navigation (not on every re-render).
+  const appliedDestRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!incomingDestination) return;
+
+    // ✅ Guard: only apply if this is a new destination (nodeId as unique key)
+    const destKey = String(incomingDestination.id);
+    if (appliedDestRef.current === destKey) return;
+    appliedDestRef.current = destKey;
+
+    setRoute({ start: null, dest: incomingDestination });
+    setCurrentStepIndex(0);
+  }, [incomingDestination]);
+
   /* ─── ROUTE LOGIC ───────────────────────────────────── */
 
   const startNode = useMemo(() => {
-    if (route.start && route.start.nodeId !== "USER_NODE") {
-      return route.start.nodeId;
+    // ✅ FIX 4: If a named start building is set and it's not a GPS placeholder, use its nodeId
+    if (route.start && route.start.nodeId && route.start.nodeId !== "USER_NODE") {
+      return route.start.nodeId ?? null;
     }
 
+    // Otherwise fall back to the user's live GPS position on the map
     if (userMapPosition) {
       return findNearestNode(userMapPosition.x, userMapPosition.y);
     }
@@ -124,11 +146,16 @@ function Home() {
     return null;
   }, [route.start, userMapPosition]);
 
+  // ✅ FIX 5: Guard against buildings with no nodeId
   const destinationNode = route.dest?.nodeId ?? null;
 
   const path = useMemo(() => {
     if (!startNode || !destinationNode) return [];
-    return findShortestPath(startNode, destinationNode);
+    try {
+      return findShortestPath(startNode, destinationNode);
+    } catch {
+      return [];
+    }
   }, [startNode, destinationNode]);
 
   const directions = useMemo(() => {
@@ -145,10 +172,11 @@ function Home() {
 
     path.forEach((nodeId, i) => {
       const node = NAV_NODES[nodeId];
+      if (!node) return; // ✅ guard against missing nodes
 
       const dist = Math.hypot(
         node.x - userMapPosition.x,
-        node.y - userMapPosition.y,
+        node.y - userMapPosition.y
       );
 
       if (dist < minDist) {
@@ -200,20 +228,20 @@ function Home() {
       )}
 
       {/* 🗺️ MAP AREA */}
-     <div className="absolute inset-0 pt-16 md:flex md:items-center md:justify-center">
+      <div className="absolute inset-0 pt-16 md:flex md:items-center md:justify-center">
         <div
           className="
-      relative 
-      w-full 
-      h-[calc(140vh-64px)]   /* 🔥 FULL HEIGHT minus navbar */
-      md:max-w-5xl 
-      md:h-[110vh] 
-      bg-white 
-      md:rounded-3xl 
-      md:shadow-2xl 
-      overflow-hidden 
-      md:border
-    "
+            relative
+            w-full
+            h-[calc(140vh-64px)]
+            md:max-w-5xl
+            md:h-[110vh]
+            bg-white
+            md:rounded-3xl
+            md:shadow-2xl
+            overflow-hidden
+            md:border
+          "
         >
           <div className="w-full h-full transition-transform duration-500 hover:scale-[1.01]">
             <MapLoyola
