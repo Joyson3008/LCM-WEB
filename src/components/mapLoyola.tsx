@@ -9,7 +9,6 @@ import ExitIcon from "../assets/icons/exit.svg";
 import FootIcon1 from "../assets/icons/foot1.svg";
 import FootIcon from "../assets/icons/GROUND.svg";
 import HostelIcon from "../assets/icons/H.svg";
-import H1 from "../assets/icons/h1.svg";
 import H2 from "../assets/icons/h2.svg";
 import H3 from "../assets/icons/h3.svg";
 import H4 from "../assets/icons/H4.svg";
