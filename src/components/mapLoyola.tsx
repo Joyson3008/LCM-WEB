@@ -108,7 +108,38 @@ const MapLoyola: React.FC<MapLoyolaProps> = ({
         : "#2f4693"
       : "transparent";
   const canteenStroke = highlightType === "canteen" ? "#2f4693" : "transparent";
+  const pathDString = useMemo(() => {
+    if (!navigationPath || navigationPath.length < 2) return "";
+    const pts = navigationPath
+      .map((id) => navNodes[id])
+      .filter(Boolean) as NavNode[];
+    if (pts.length < 2) return "";
+    let d = `M${pts[0].x},${pts[0].y}`;
+    for (let i = 1; i < pts.length; i++) {
+      const prev = pts[i - 1];
+      const curr = pts[i];
+      // Smooth cubic bezier between consecutive points
+      const mx = (prev.x + curr.x) / 2;
+      const my = (prev.y + curr.y) / 2;
+      d += ` Q${prev.x},${prev.y} ${mx},${my}`;
+    }
+    const last = pts[pts.length - 1];
+    d += ` L${last.x},${last.y}`;
+    return d;
+  }, [navigationPath, navNodes]);
 
+  const startNode = useMemo(
+    () => (navigationPath.length > 0 ? navNodes[navigationPath[0]] : null),
+    [navigationPath, navNodes],
+  );
+
+  const endNode = useMemo(
+    () =>
+      navigationPath.length > 1
+        ? navNodes[navigationPath[navigationPath.length - 1]]
+        : null,
+    [navigationPath, navNodes],
+  );
   return (
     <div style={{ flex: 1, width: "100%", height: "100%" }}>
       <svg
@@ -118,7 +149,7 @@ const MapLoyola: React.FC<MapLoyolaProps> = ({
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
-          {/* Start marker */}
+          {/* Existing markers — keep these */}
           <marker
             id="startMarker"
             markerWidth="24"
@@ -130,7 +161,6 @@ const MapLoyola: React.FC<MapLoyolaProps> = ({
             <circle cx="12" cy="12" r="6" fill="#2563eb" />
             <circle cx="12" cy="12" r="4" fill="#ffffff" />
           </marker>
-          {/* End marker */}
           <marker
             id="endMarker"
             markerWidth="10"
@@ -140,6 +170,59 @@ const MapLoyola: React.FC<MapLoyolaProps> = ({
           >
             <circle cx="5" cy="5" r="4" fill="#e34444" />
           </marker>
+
+          {/* NEW: Gradient for nav path */}
+          <linearGradient
+            id="navPathGrad"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="0%"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop offset="0%" stopColor="#2563eb" />
+            <stop offset="100%" stopColor="#7c3aed" />
+          </linearGradient>
+
+          {/* NEW: Direction arrow marker */}
+          <marker
+            id="arrowDir"
+            markerWidth="10"
+            markerHeight="10"
+            refX="5"
+            refY="3"
+            orient="auto"
+          >
+            <path d="M0,0 L0,6 L9,3 z" fill="#2563eb" opacity="0.75" />
+          </marker>
+
+          {/* NEW: Animation styles */}
+          <style>{`
+    .nav-path-draw {
+      animation: navDraw 1.6s cubic-bezier(0.4,0,0.2,1) forwards;
+    }
+    @keyframes navDraw {
+      from { stroke-dashoffset: var(--path-len, 2000); }
+      to   { stroke-dashoffset: 0; }
+    }
+    .nav-dest-pulse {
+      animation: destPulse 1.5s ease-out infinite;
+    }
+    .nav-dest-pulse-2 {
+      animation: destPulse 1.5s ease-out 0.5s infinite;
+    }
+    @keyframes destPulse {
+      0%   { r: 10; opacity: 0.5; }
+      100% { r: 26; opacity: 0; }
+    }
+    .nav-dot-travel {
+      animation: dotTravel 3s linear infinite;
+    }
+    @keyframes dotTravel {
+      0%   { offset-distance: 0%; }
+      100% { offset-distance: 100%; }
+    }
+  `}</style>
         </defs>
 
         {/* ── Background ── */}
@@ -658,25 +741,115 @@ const MapLoyola: React.FC<MapLoyolaProps> = ({
         />
 
         {/* ── Navigation path (search result) ── */}
-        {navigationPath && navigationPath.length > 1 && (
-          <polyline
-            points={navigationPath
-              .map((id) => {
-                const node = navNodes[id];
-                return node ? `${node.x},${node.y}` : "";
-              })
-              .filter(Boolean)
-              .join(" ")}
-            fill="none"
-            stroke="#ca1c1c"
-            strokeWidth={1.2}
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            markerStart="url(#startMarker)"
-            markerEnd="url(#endMarker)"
-          />
-        )}
+        {pathDString && (
+          <g key={navigationPath.join("-")}>
+            {/* Glow / halo layer */}
+            <path
+              d={pathDString}
+              fill="none"
+              stroke="#2563eb"
+              strokeWidth={14}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity={0.12}
+            />
 
+            {/* Main gradient stroke — animates on mount */}
+            <path
+              d={pathDString}
+              fill="none"
+              stroke="url(#navPathGrad)"
+              strokeWidth={5}
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeDasharray={2000}
+              strokeDashoffset={2000}
+              className="nav-path-draw"
+              style={{ "--path-len": "2000" } as React.CSSProperties}
+            />
+
+            {/* Dashed direction indicator overlay */}
+            <path
+              d={pathDString}
+              fill="none"
+              stroke="white"
+              strokeWidth={1.5}
+              strokeLinecap="round"
+              strokeDasharray="4 20"
+              opacity={0.6}
+            />
+
+            {/* Moving travel dot */}
+            <circle
+              r={6}
+              fill="#2563eb"
+              stroke="white"
+              strokeWidth={2}
+              style={
+                {
+                  offsetPath: `path("${pathDString}")`,
+                  offsetDistance: "0%",
+                } as React.CSSProperties
+              }
+              className="nav-dot-travel"
+            />
+
+            {/* Start marker (green) */}
+            {startNode && (
+              <g>
+                <circle
+                  cx={startNode.x}
+                  cy={startNode.y}
+                  r={9}
+                  fill="#22c55e"
+                  stroke="white"
+                  strokeWidth={2.5}
+                />
+                <circle cx={startNode.x} cy={startNode.y} r={4} fill="white" />
+              </g>
+            )}
+
+            {/* Destination marker (red with pulse) */}
+            {endNode && (
+              <g>
+                <circle
+                  cx={endNode.x}
+                  cy={endNode.y}
+                  r={10}
+                  fill="#ef4444"
+                  opacity={0}
+                  className="nav-dest-pulse"
+                />
+                <circle
+                  cx={endNode.x}
+                  cy={endNode.y}
+                  r={10}
+                  fill="#ef4444"
+                  opacity={0}
+                  className="nav-dest-pulse-2"
+                />
+                <circle
+                  cx={endNode.x}
+                  cy={endNode.y}
+                  r={10}
+                  fill="#ef4444"
+                  stroke="white"
+                  strokeWidth={2.5}
+                />
+                <text
+                  x={endNode.x}
+                  y={endNode.y - 16}
+                  fontSize={9}
+                  fill="#7f1d1d"
+                  fontWeight="600"
+                  textAnchor="middle"
+                >
+                  DEST
+                </text>
+              </g>
+            )}
+          </g>
+        )}
         {/* ═══════════════════════════════════════════════════
             BUILDINGS
         ═══════════════════════════════════════════════════ */}
@@ -911,6 +1084,16 @@ const MapLoyola: React.FC<MapLoyolaProps> = ({
             stroke={selStroke2(8)}
             strokeWidth={selWidth2(8)}
           />
+            <text
+            x={157.44}
+            y={145.7}
+            fontSize={9}
+            fill="black"
+            fontWeight="600"
+            textAnchor="middle"
+          >
+            MCA
+          </text>
         </g>
 
         {/* Bank & Post Office (index 9) */}
@@ -1635,22 +1818,22 @@ const MapLoyola: React.FC<MapLoyolaProps> = ({
         </g>
         {/* Hostel Buildings cluster (index 44 area) */}
         <g transform="translate(164.44, 372)" {...buildingHandlers(44)}>
-          <rect x={-6} y={-13} width={30} height={35} fill="transparent" />
+          <rect width={30} height={35} fill="transparent" />
 
           <image href={AD} width={18} height={18} />
         </g>
 
         {/* Multiple hostel blocks (index 24) */}
         {[
-          { tx: 164.94, ty: 389, icon: H1 },
-          { tx: 165, ty: 407, icon: H2 },
-          { tx: 164.94, ty: 426, icon: H3 },
-          { tx: 165.9, ty: 442, icon: H4 },
+         
+          { tx: 164.94, ty: 392, icon: H2 },
+          { tx: 164.94, ty: 416, icon: H3 },
+          { tx: 164.94, ty: 436, icon: H4 },
           { tx: 164.94, ty: 458, icon: H5 },
           { tx: 138, ty: 445, icon: H6 },
 
-          { tx: 91, ty: 408, icon: H12 },
-          { tx: 91, ty: 427, icon: H11 },
+          { tx: 91, ty: 408, icon: H11 },
+          { tx: 91, ty: 427, icon: H12 },
 
           { tx: 66.3, ty: 385.5, icon: H17 },
           { tx: 115, ty: 445, icon: H7 },
@@ -1659,8 +1842,8 @@ const MapLoyola: React.FC<MapLoyolaProps> = ({
           { tx: 67, ty: 409, icon: H16 },
 
           { tx: 115, ty: 386.5, icon: H9 },
-          { tx: 90.3, ty: 386.5, icon: H13 },
-          { tx: 91, ty: 445, icon: H10 },
+          { tx: 90.3, ty: 386.5, icon: H10 },
+          { tx: 91, ty: 445, icon: H13 },
 
           { tx: 115, ty: 427, icon: H8 },
         ].map(({ tx, ty, icon }, i) => (
@@ -1960,27 +2143,6 @@ const MapLoyola: React.FC<MapLoyolaProps> = ({
           />
         </g>
 
-        {/* ── Main navigation path (from search) ── */}
-        {navigationPath.length > 1 &&
-          navigationPath.map((nodeId, index) => {
-            if (index === 0) return null;
-            const prevNode = navNodes[navigationPath[index - 1]];
-            const currNode = navNodes[nodeId];
-            if (!prevNode || !currNode) return null;
-            return (
-              <line
-                key={"main-" + prevNode.id + "-" + currNode.id}
-                x1={prevNode.x}
-                y1={prevNode.y}
-                x2={currNode.x}
-                y2={currNode.y}
-                stroke="red"
-                strokeWidth={4}
-                strokeLinecap="round"
-              />
-            );
-          })}
-
         {/* ── Click route path ── */}
         {clickNavigationPath.length > 1 &&
           clickNavigationPath.map((nodeId, index) => {
@@ -1995,13 +2157,15 @@ const MapLoyola: React.FC<MapLoyolaProps> = ({
                 y1={prevNode.y}
                 x2={currNode.x}
                 y2={currNode.y}
-                stroke="#2bb673"
+                stroke="#16a34a"
                 strokeWidth={4}
+                strokeLinecap="round"
+                strokeDasharray="6 10"
+                opacity={0.85}
               />
             );
           })}
 
-        {/* ── User position dot ── */}
         {userPosition && (
           <g>
             <circle
