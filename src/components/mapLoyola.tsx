@@ -9,6 +9,7 @@ import ExitIcon from "../assets/icons/exit.svg";
 import FootIcon1 from "../assets/icons/foot1.svg";
 import FootIcon from "../assets/icons/GROUND.svg";
 import HostelIcon from "../assets/icons/H.svg";
+
 import H2 from "../assets/icons/h2.svg";
 import H3 from "../assets/icons/h3.svg";
 import H4 from "../assets/icons/H4.svg";
@@ -1819,7 +1820,7 @@ const MapLoyola: React.FC<MapLoyolaProps> = ({
         <g transform="translate(164.44, 372)" {...buildingHandlers(44)}>
           <rect width={30} height={35} fill="transparent" />
 
-          <image href={AD} width={18} height={18} />
+          <image href={AD} width={22} height={22} />
         </g>
 
         {/* Multiple hostel blocks (index 24) */}
@@ -1851,7 +1852,7 @@ const MapLoyola: React.FC<MapLoyolaProps> = ({
             transform={`translate(${tx}, ${ty})`}
             {...buildingHandlers(24)}
           >
-            <rect x={-12} y={-12} width={40} height={40} fill="transparent" />
+            <rect width={40} height={40} fill="transparent" />
 
             <image href={icon} width={20} height={20} />
           </g>
