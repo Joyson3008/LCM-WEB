@@ -42,7 +42,7 @@ export default function MapView({ path }: Props) {
 
         {/* 🔴 NODES */}
         {points.map((p, i) => (
-          <circle key={i} cx={p.x} cy={p.y} r="3" fill="red" />
+          <circle key={i} cx={p.x} cy={p.y} r="2" fill="red" />
         ))}
       </svg>
     </div>
